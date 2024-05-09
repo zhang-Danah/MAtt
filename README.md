@@ -22,7 +22,7 @@ Download datasets and unzip them to the folder 'data'.
 3. BCI-ERN:
     https://www.kaggle.com/competitions/inria-bci-challenge/data
 
-Link to download [data](https://drive.google.com/file/d/1RxN2PWOkYJw-NzyM0vaxdLkina2q-_Rj/view?usp=sharing)
+Link to download [data](https://drive.google.com/file/d/1_KBfSNzvxCZ-HwiOASQhlFe8wwsq4vHt/view?usp=sharing)
 
 ## Training and testing
 
@@ -112,4 +112,3 @@ We modified code from:
   url={https://github.com/adavoudi/spdnet},
 }
 ```
-

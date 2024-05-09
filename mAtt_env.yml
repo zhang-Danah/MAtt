@@ -10,7 +10,7 @@ dependencies:
   - certifi=2021.5.30=py36hecd8cb5_0
   - cpuonly=2.0
   - dataclasses=0.8
-  - ffmpeg=4.3
+  - ffmpeg=4.3conda 
   - freetype=2.11.0
   - gettext=0.21.0
   - gmp=6.2.1

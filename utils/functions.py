@@ -21,6 +21,8 @@ def trainNetwork(net, trainloader, validloader, testloader, model_path=None, ite
         acc_tr = 0
         tr_len = 0
         for xb, yb in trainloader:
+            xb = xb.cuda()
+            yb = yb.cuda()
             tr_len += yb.shape[0]
             out = net(xb)
             loss = CE(out, yb)
@@ -33,6 +35,8 @@ def trainNetwork(net, trainloader, validloader, testloader, model_path=None, ite
         net.eval()
         TL = 0
         for xb, yb in validloader:
+            xb = xb.cuda()
+            yb = yb.cuda()
             with torch.no_grad():
                 out = net(xb)
                 if torch.argmax(softmax(out)) == yb:
@@ -63,6 +67,8 @@ def testNetwork(net, testloader):
     acc = 0
     softmax = nn.Softmax(dim=1)
     for xb, yb in testloader:
+        xb = xb.cuda()
+        yb = yb.cuda()
         with torch.no_grad():
             pred = net(xb)
             if torch.argmax(softmax(pred)) == yb:

@@ -7,7 +7,7 @@ import os
 def split_train_valid_set(x_train, y_train, ratio):
     s = y_train.argsort()
     x_train = x_train[s]
-    y_train = y_train[s]
+    y_train = y_train[s] #根据label来排序
 
     cL = int(len(x_train) / 4)
 
@@ -37,12 +37,14 @@ def split_train_valid_set(x_train, y_train, ratio):
 def getAllDataloader(subject, ratio, data_path, bs):
     train = io.loadmat(os.path.join(data_path, 'BCIC_S' + f'{subject:02d}' + '_T.mat'))
     test = io.loadmat(os.path.join(data_path, 'BCIC_S' + f'{subject:02d}' + '_E.mat'))
-
+    print("train:", type(train))
+    print("test:", type(test))
     x_train = torch.Tensor(train['x_train']).unsqueeze(1)
     y_train = torch.Tensor(train['y_train']).view(-1)
+    print("x_train:", type(x_train))
+    print("y_train:", type(y_train))
     x_test = torch.Tensor(test['x_test']).unsqueeze(1)
     y_test = torch.Tensor(test['y_test']).view(-1)
-
     x_train, y_train, x_valid, y_valid = split_train_valid_set(x_train, y_train, ratio=ratio)
     dev = torch.device('cpu')
 

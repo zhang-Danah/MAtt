@@ -5,7 +5,6 @@ import torch
 import torch.nn as nn
 from utils.functions import trainNetwork, testNetwork
 from mAtt.mAtt import mAtt_bci
-from mAtt.g2g_plus import EncoderNet
 from utils.GetBci2a import getAllDataloader
 import argparse
 
@@ -14,7 +13,6 @@ if __name__=='__main__':
     ap.add_argument('--repeat', type=int, default=1, help='No.xxx repeat for training model')
     ap.add_argument('--sub', type=int, default=9, help='subject xx you want to train')
     ap.add_argument('--lr', type=float, default=5e-4, help='learning rate')
-    ap.add_argument('--num_class', type=int, default=4, help='class num')
     ap.add_argument('--wd', type=float, default=1e-1, help='weight decay')
     ap.add_argument('--iterations', type=int, default=350, help='number of training iterations')
     ap.add_argument('--epochs', type=int, default=3, help='number of epochs that you want to use for split EEG signals')
@@ -24,22 +22,7 @@ if __name__=='__main__':
     args = vars(ap.parse_args())
 
     print(f'subject{args["sub"]}')
-    trainloader, validloader, testloader = getAllDataloader(subject=args['sub'], 
-                                                            ratio=8, 
-                                                            data_path=args['data_path'], 
+    trainloader, validloader, testloader = getAllDataloader(subject=args['sub'],
+                                                            ratio=8,
+                                                            data_path=args['data_path'],
                                                             bs=args['bs'])
-    # net = mAtt_bci(args['epochs']).cpu()
-    net = EncoderNet(args).cuda()
-    args.pop('bs')
-    args.pop('data_path')
-    args.pop('num_class')
-    trainNetwork(net, 
-                trainloader, 
-                validloader, 
-                testloader,
-                **args
-                )
-    net = torch.load(os.path.join(args["model_path"], f'repeat{args["repeat"]}_sub{args["sub"]}_epochs{args["epochs"]}_lr{args["lr"]}_wd{args["wd"]}.pt'))    
-    acc = testNetwork(net, testloader)    
-    print(f'{acc*100:.2f}')
-

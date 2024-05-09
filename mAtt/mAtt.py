@@ -235,3 +235,43 @@ class mAtt_cha(nn.Module):
         x = self.flat(x)
         x = self.linear(x)
         return x
+
+
+class g2g_bci(nn.Module):
+    def __init__(self, epochs):
+        super().__init__()
+        # FE
+        # bs, 1, channel, sample
+        self.conv1 = nn.Conv2d(1, 22, (22, 1))
+        self.Bn1 = nn.BatchNorm2d(22)
+        # bs, 22, 1, sample
+        self.conv2 = nn.Conv2d(22, 20, (1, 12), padding=(0, 6))
+        self.Bn2 = nn.BatchNorm2d(20)
+
+        # E2R
+        self.ract1 = E2R(epochs=epochs)
+        # riemannian part
+        self.att2 = AttentionManifold(20, 18)
+        self.ract2 = SPDRectified()
+
+        # R2E
+        self.tangent = SPDTangentSpace(18)
+        self.flat = nn.Flatten()
+        # fc
+        self.linear = nn.Linear(9 * 19 * epochs, 4, bias=True)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.Bn1(x)
+        x = self.conv2(x)
+        x = self.Bn2(x)
+
+        x = self.ract1(x)
+        x, shape = self.att2(x)
+        x = self.ract2(x)
+
+        x = self.tangent(x)
+        x = x.view(shape[0], shape[1], -1)
+        x = self.flat(x)
+        x = self.linear(x)
+        return x

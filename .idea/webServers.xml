@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="28a976de-8f6d-4bda-a175-ad0f667aece1" name="MAtt@172.17.0.21:22">
+        <fileTransfer rootFolder="/home/zdn" accessType="SFTP" host="172.17.0.21" port="22" sshConfigId="9e1373d8-eeb0-4230-b694-21d65ddb9127" sshConfig="zdn@172.17.0.21:22">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
